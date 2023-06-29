@@ -16,16 +16,11 @@ namespace Utility
             {
                 if (!HasValue)
                 {
-                    #if SANDBOX
-
+#if SANDBOX
                     Log.Error("Cannot get value of an empty Optional");
                     return default;
-
 #else
-
-                                        throw new InvalidOperationException("Cannot get value of an empty Optional");
-
-
+                    throw new InvalidOperationException("Cannot get value of an empty Optional");
 #endif
 
                 }
@@ -73,6 +68,29 @@ namespace Utility
         /// <param name="defaultValue">The value to return if the optional does not have a value.</param>
         /// <returns>The optional value if it exists, otherwise the default value.</returns>
         public T ValueOrElse(T defaultValue) => HasValue ? Value : defaultValue;
+
+
+        /// <summary>
+        /// Transforms the value inside this Optional using the given transformation function.
+        /// If this Optional does not have a value, returns an empty Optional of the result type.
+        /// </summary>
+        /// <typeparam name="TResult">The type of the result of the transformation function.</typeparam>
+        /// <param name="transform">A function that transforms the value inside this Optional.</param>
+        /// <returns>An Optional containing the transformed value, or an empty Optional if this Optional does not have a value.</returns>
+        public Optional<TResult> Map<TResult>(Func<T, TResult> transform)
+            => HasValue ? Optional<TResult>.Of(transform(_value)) : Optional<TResult>.None;
+
+
+        /// <summary>
+        /// Checks if the value inside this Optional satisfies the given predicate.
+        /// If this Optional does not have a value, or if the value does not satisfy the predicate, returns an empty Optional.
+        /// Otherwise, returns this Optional.
+        /// </summary>
+        /// <param name="predicate">A function that checks if the value inside this Optional satisfies a certain condition.</param>
+        /// <returns>This Optional if it has a value that satisfies the predicate, or an empty Optional otherwise.</returns>
+        public Optional<T> Filter(Func<T, bool> predicate)
+            => !HasValue || !predicate(_value) ? None : this;
+
 
         public bool Equals(Optional<T> other)
         {
