@@ -1,8 +1,8 @@
 {
-  "Title": "Optional Pattern",
+  "Title": "OptionalSharp",
   "Type": "library",
   "Org": "sigma",
-  "Ident": "optional_pattern",
+  "Ident": "optionalsharp",
   "Tags": null,
   "Schema": 1,
   "HasAssets": false,
@@ -18,6 +18,6 @@
     "CsProjName": "",
     "Summary": "",
     "Description": "",
-    "Public": false
+    "Public": true
   }
 }
