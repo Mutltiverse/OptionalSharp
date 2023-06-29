@@ -5,8 +5,34 @@ namespace Utility
 {
     public readonly struct Optional<T> : IEquatable<Optional<T>>
     {
-        /// <summary> Potentially thhe value of the optional instance. </summary>
-        public T Value { get; }
+        // Holds the value of the Optional instance. If HasValue is false, the value of _value is meaningless.
+        private readonly T _value;
+
+
+        /// <summary> Potentially the value of the optional instance. </summary>
+        public T Value
+        {
+            get
+            {
+                if (!HasValue)
+                {
+                    #if SANDBOX
+
+                    Log.Error("Cannot get value of an empty Optional");
+                    return default;
+
+#else
+
+                                        throw new InvalidOperationException("Cannot get value of an empty Optional");
+
+
+#endif
+
+                }
+
+                return _value;
+            }
+        }
 
         /// <summary> Indicating whether the Optional instance has a value. </summary>
         public bool HasValue { get; }
@@ -19,7 +45,7 @@ namespace Utility
         /// </summary>
         private Optional(T value)
         {
-            Value = value;
+            _value = value;
             HasValue = true;
         }
 
@@ -59,7 +85,7 @@ namespace Utility
                 return false;
 
             // If both have values, compare the values for equality.
-            return EqualityComparer<T>.Default.Equals(Value, other.Value);
+            return EqualityComparer<T>.Default.Equals(_value, other._value);
         }
 
         public override bool Equals(object obj) => obj is Optional<T> optional && Equals(optional);
@@ -68,7 +94,7 @@ namespace Utility
         {
             // Hash code should be calculated based on HasValue and Value.
             // If HasValue is false, Value is ignored.
-            return HasValue ? Value.GetHashCode() : 0;
+            return HasValue ? _value.GetHashCode() : 0;
         }
 
         public static bool operator ==(Optional<T> left, Optional<T> right)
