@@ -3,7 +3,7 @@ using System;
 
 namespace Utility
 {
-    public struct Optional<T> : IEquatable<Optional<T>>
+    public readonly struct Optional<T> : IEquatable<Optional<T>>
     {
         /// <summary> Potentially thhe value of the optional instance. </summary>
         public T Value { get; }
@@ -70,5 +70,11 @@ namespace Utility
             // If HasValue is false, Value is ignored.
             return HasValue ? Value.GetHashCode() : 0;
         }
+
+        public static bool operator ==(Optional<T> left, Optional<T> right)
+            => left.Equals(right);
+
+        public static bool operator !=(Optional<T> left, Optional<T> right)
+            =>!(left == right);
     }
 }
