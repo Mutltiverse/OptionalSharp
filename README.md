@@ -21,8 +21,8 @@ You can also create an empty Optional:
 
 ```csharp
 Optional<int> empty = Optional<int>.None;
-This can be useful when you want to represent the absence of a value, instead of using null.
 ```
+This can be useful when you want to represent the absence of a value, instead of using null.
 
 Equals and GetHashCode
 Optional<T> overrides the Equals and GetHashCode methods, so you can use them in collections and compare them directly:
