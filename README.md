@@ -1,6 +1,6 @@
 # OptionalSharp
 ## Overview
-OptionalSharp is a small, lightweight utility library in C#. It provides a way to represent optional values that may or may not exist. This Optional type aims to make your code more robust and clear, helping to eliminate NullReferenceExceptions and make it obvious when a value might be absent.
+OptionalSharp is a small, lightweight utility library in C#. It provides a way to represent optional values that may or may not exist. This Optional type aims to make your code more robust and clear, helping to eliminate NullReferenceExceptions and make it obvious when a value might be absent. This is aimed for the gamemode S&Box.
 
 ## Usage
 To use OptionalSharp, simply wrap your variable with the Optional<T> class. Here's a quick example:
@@ -13,7 +13,7 @@ You can check if the optional contains a value:
 ```csharp
 if (optionalInt.HasValue)
 {
-    Console.WriteLine(optionalInt.Value);
+    Log.Info(optionalInt.Value);
 }
 ```
 
@@ -33,7 +33,7 @@ Optional<int> second = Optional<int>.Of(5);
 
 if (first.Equals(second))
 {
-    Console.WriteLine("They are equal!");
+    Log.Info("They are equal!");
 }
 ```
 ## Contributing
