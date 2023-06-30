@@ -3,6 +3,11 @@ using System;
 
 namespace Utility
 {
+    /// <summary>
+    /// Represents an optional value that may or may not be present.
+    /// Provides a flexible and consistent approach to expressing the absence of a value.
+    /// </summary>
+    /// <typeparam name="T">The type of the optional value.</typeparam>
     public readonly struct Optional<T> : IEquatable<Optional<T>>
     {
         // Holds the value of the Optional instance. If HasValue is false, the value of _value is meaningless.
@@ -59,10 +64,10 @@ namespace Utility
         /// <para>Example:</para> 
         /// <code>
         /// Optional&lt;int&gt; optionalWithValue = Optional&lt;int&gt;.Of(42);
-        /// Console.WriteLine(optionalWithValue.ValueOrElse(0));  // Output: 42
+        /// Log.Info(optionalWithValue.ValueOrElse(0));  // Output: 42
         ///
         /// Optional&lt;int&gt; optionalWithoutValue = Optional&lt;int&gt;.None;
-        /// Console.WriteLine(optionalWithoutValue.ValueOrElse(0));  // Output: 0
+        /// Log.Info(optionalWithoutValue.ValueOrElse(0));  // Output: 0
         /// </code>
         /// </summary>
         /// <param name="defaultValue">The value to return if the optional does not have a value.</param>
