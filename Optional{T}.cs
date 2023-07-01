@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System;
+using System.ComponentModel;
 
 namespace Utility
 {
@@ -8,19 +9,22 @@ namespace Utility
     /// Provides a flexible and consistent approach to expressing the absence of a value.
     /// </summary>
     /// <typeparam name="T">The type of the optional value.</typeparam>
+    
     public readonly struct Optional<T> : IEquatable<Optional<T>>
     {
         // Holds the value of the Optional instance. If HasValue is false, the value of _value is meaningless.
         private readonly T _value;
 
 
+
         /// <summary> Potentially the value of the optional instance. </summary>
+        [Browsable(false)]
         public T Value
         {
             get
             {
                 if (!HasValue)
-                {
+                { // Not sure what to do:  && !DEBUG // WE dont error if we are in debug mode?
 #if SANDBOX
                     Log.Error("Cannot get value of an empty Optional");
                     return default;
@@ -33,6 +37,18 @@ namespace Utility
                 return _value;
             }
         }
+
+        public T ValueOrNull
+        {
+            get
+            {
+                var value = HasValue ? Value : default;
+                return value;
+            }
+        }
+
+
+        
 
         /// <summary> Indicating whether the Optional instance has a value. </summary>
         public bool HasValue { get; }
@@ -59,20 +75,11 @@ namespace Utility
         public static Optional<T> None => new Optional<T>();
 
         /// <summary>
-        /// Returns the optional value if it exists, otherwise returns the default value.
-        /// 
-        /// <para>Example:</para> 
-        /// <code>
-        /// Optional&lt;int&gt; optionalWithValue = Optional&lt;int&gt;.Of(42);
-        /// Log.Info(optionalWithValue.ValueOrElse(0));  // Output: 42
-        ///
-        /// Optional&lt;int&gt; optionalWithoutValue = Optional&lt;int&gt;.None;
-        /// Log.Info(optionalWithoutValue.ValueOrElse(0));  // Output: 0
-        /// </code>
+        /// Gets the value of the Optional instance if it has a value, otherwise returns the specified default value.
         /// </summary>
-        /// <param name="defaultValue">The value to return if the optional does not have a value.</param>
-        /// <returns>The optional value if it exists, otherwise the default value.</returns>
-        public T ValueOrElse(T defaultValue) => HasValue ? Value : defaultValue;
+        /// <param name="defaultValue">The value to return if the Optional instance does not have a value.</param>
+        /// <returns>The Optional value if it has a value, otherwise the specified default value.</returns>
+        public T GetValueOrDefault(T defaultValue) => HasValue ? Value : defaultValue;
 
 
         /// <summary>
